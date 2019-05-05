@@ -3,10 +3,22 @@ import {
   FETCH_HEROES_SUCCESS,
   FETCH_HEROES_FAILURE
 } from './types';
+import moment from 'moment'
+import CryptoJS from 'crypto-js';
+import { marvelApi as config } from '../config';
 
-// const marvelURL = 'https://gateway.marvel.com/v1/public/',
-const marvelURL = 'https://developer.marvel.com/v1/public/',
-      apiKey = `apikey=${process.env.REACT_APP_PUBLIC_API_KEY}`;
+
+const marvelURL = 'http://developer.marvel.com/v1/public/characters',
+      charactersUrl = 'http://gateway.marvel.com/v1/public/characters',
+      timeStamp = moment().unix(),
+      defaultOptions = { page: 0, count: 20, name: '', nameStartsWith: '' },
+      hash = CryptoJS.MD5(timeStamp + 'dafc7de0618ac661416f14ac94752cd4f58ca5f5' + '68f10e0c383ac66c521330b8291a4a08')
+      .toString(CryptoJS.enc.Hex),
+      pk = '68f10e0c383ac66c521330b8291a4a08',
+      prk = 'dafc7de0618ac661416f14ac94752cd4f58ca5f5';
+
+//let params = `?apikey=${pk}&ts=${timeStamp}&hash=${hash}&limit=${defaultOptions.count}`
+let params = `?apikey=${pk}&ts=${timeStamp}&hash=${hash}`
 
 export const fetchHeroesBegin = () => ({
   type: FETCH_HEROES_BEGIN
@@ -23,16 +35,16 @@ export const fetchHeroesFailure = error => ({
 });
 
 export function fetchHeroes() {
-  let url = `${marvelURL}characters?${apiKey}`;
+  let url = `${charactersUrl}${params}`;
   return dispatch => {
     dispatch(fetchHeroesBegin());
     return fetch(url)
       .then(handleErrors)
-      .then(json => console.log(json))
-      // .then(json => {
-      //   dispatch(fetchHeroesSuccess(json.heroes));
-      //   return json.heroes;
-      // })
+      .then(res => res.json())
+      .then(json => {
+        dispatch(fetchHeroesSuccess(json.data.results));
+        return json.data.results;
+      })
       .catch(error => dispatch(fetchHeroesFailure(error)));
   };
 }
