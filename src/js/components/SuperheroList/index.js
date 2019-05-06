@@ -2,37 +2,44 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchHeroes } from "../../../actions/heroesActions";
 import SuperheroCard from "../SuperheroCard";
+import { ListGroup, Spinner } from 'react-bootstrap';
 
 class SuperheroList extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchHeroes());
   }
 
-  render() {
-    const { error, loading, heroList } = this.props;
+  handleCharacterSelected = (data) => {
+    this.props.handleCharacterSelected(data);
+  }
 
-    if (error) {
-      return <div>Error! {error.message}</div>;
+  render() {
+    const { errorFetchingHeroes, loadingHeroes, heroList } = this.props;
+
+    if (errorFetchingHeroes) {
+      return <div>Error! {errorFetchingHeroes.message}</div>;
     }
 
-    if (loading) {
-      return <div>Loading...</div>;
+    if (loadingHeroes) {
+      return <Spinner animation="grow" variant="success" />
     }
 
     return (
-      <ul>
+      <ListGroup variant="flush">
         {heroList.map((hero, index) =>
-          <SuperheroCard key={index} data={hero}/>
+          <ListGroup.Item key={index} onClick={() => this.handleCharacterSelected({hero})}>
+            <SuperheroCard data={hero}/>
+          </ListGroup.Item>
         )}
-      </ul>
+      </ListGroup>
     );
   }
 }
 
 const mapStateToProps = state => ({
   heroList: state.heroes.heroList,
-  loading: state.heroes.loading,
-  error: state.heroes.error
+  loadingHeroes: state.heroes.loadingHeroes,
+  errorFetchingHeroes: state.heroes.errorFetchingHeroes
 });
 
 export default connect(mapStateToProps)(SuperheroList);

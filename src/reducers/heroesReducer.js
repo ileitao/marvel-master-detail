@@ -1,37 +1,43 @@
 import {
   FETCH_HEROES_BEGIN,
   FETCH_HEROES_SUCCESS,
-  FETCH_HEROES_FAILURE
+  FETCH_HEROES_FAILURE,
+  FETCH_HERO_BY_ID_BEGIN,
+  FETCH_HERO_BY_ID_SUCCESS,
+  FETCH_HERO_BY_ID_FAILURE
 } from '../actions/types';
 
 const initialState = {
   heroList: [],
-  loading: false,
-  error: null
+  heroData: null,
+  loadingHeroes: false,
+  errorFetchingHeroes: null,
+  loadingHero: false,
+  errorFetchingHero: null
 }
 
 export default function(state = initialState, action) {
   switch(action.type) {
     case FETCH_HEROES_BEGIN:
-      // Mark the state as "loading" so we can show a spinner or something
+      // Mark the state as "loadingHeroes" so we can show a spinner or something
       // Also, reset any errors. We're starting fresh.
       return {
         ...state,
-        loading: true,
-        error: null
+        loadingHeroes: true,
+        errorFetchingHeroes: null
       };
 
     case FETCH_HEROES_SUCCESS:
-    // All done: set loading "false".
+    // All done: set loadingHeroes "false".
     // Also, replace the items with the ones from the server
       return {
         ...state,
-        loading: false,
+        loadingHeroes: false,
         heroList: action.payload.heroes
       };
     
     case FETCH_HEROES_FAILURE:
-      // The request failed. It's done. So set loading to "false".
+      // The request failed. It's done. So set loadingHeroes to "false".
       // Save the error, so we can display it somewhere.
       // Since it failed, we don't have items to display anymore, so set `items` empty.
       //
@@ -40,9 +46,31 @@ export default function(state = initialState, action) {
       // Do whatever seems right for your use case.
       return {
         ...state,
-        loading: false,
-        error: action.payload.error,
+        loadingHeroes: false,
+        errorFetchingHeroes: action.payload.error,
         heroList: []
+      };
+
+    case FETCH_HERO_BY_ID_BEGIN:
+      return {
+        ...state,
+        loadingHero: true,
+        errorFetchingHero: null
+      };
+
+    case FETCH_HERO_BY_ID_SUCCESS:
+      return {
+        ...state,
+        loadingHero: false,
+        heroData: action.payload.hero
+      };
+    
+    case FETCH_HERO_BY_ID_FAILURE:
+      return {
+        ...state,
+        loadingHero: false,
+        errorFetchingHero: action.payload.error,
+        heroData: {}
       };
 
     default: 

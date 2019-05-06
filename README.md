@@ -1,3 +1,11 @@
+#MARVEL MASTER DETAILS
+
+Configuración del POC - Se utilizó React + Redux-Thunk y React-Bootstrap para un mínimo de componentes y el sistema de grillas con flexbox.
+Para instalar las depencencias correr npm i y luego npm run start.
+Se agregó un archivo .env que contiene dos claves REACT_APP_PUBLIC_API_KEY y REACT_APP_PRIVATE_API_KEY con son las claves necesarias para el diálogo con la API de Marvel. 
+Este archivo no está subido en el repo, pero 
+puedo facilitarlo en caso de no contar con el mismo.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
