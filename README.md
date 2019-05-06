@@ -5,6 +5,9 @@ Para instalar las depencencias correr npm i y luego npm run start.
 Se agregó un archivo .env que contiene dos claves REACT_APP_PUBLIC_API_KEY y REACT_APP_PRIVATE_API_KEY con son las claves necesarias para el diálogo con la API de Marvel. 
 Este archivo no está subido en el repo, pero 
 puedo facilitarlo en caso de no contar con el mismo.
+Trabajo Pendiente:
+- Se considera agregar un test runner como Jest acompañado de Enzyme para la tarea de Unit Testing.
+- Se necesita trabajar en el routeo de la aplicación.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

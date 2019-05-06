@@ -14,8 +14,8 @@ import { marvelApi as config } from '../config';
 const marvelURL = 'https://developer.marvel.com/v1/public/characters',
       charactersUrl = 'https://gateway.marvel.com/v1/public/characters',
       defaultOptions = { page: 0, count: 20, name: '', nameStartsWith: '' },
-      pk = config.publicKey.slice(0, config.publicKey.indexOf("';")),
-      prk = config.privateKey.slice(0, config.privateKey.indexOf("';"));
+      pk = config.publicKey,
+      prk = config.privateKey;
 
 export const fetchHeroesBegin = () => ({
   type: FETCH_HEROES_BEGIN
